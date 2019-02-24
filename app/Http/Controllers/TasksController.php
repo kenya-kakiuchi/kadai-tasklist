@@ -130,6 +130,9 @@ class TasksController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $task = Task::find($id);
+        
+        if(\Auth::id() == $task->user_id){
         $this->validate($request,[
             'status' => 'required|max:10',
             'content' => 'required|max:191',
@@ -139,6 +142,7 @@ class TasksController extends Controller
         $task->status = $request->status;
         $task->content = $request->content;
         $task->save();
+        }
 
         return redirect('/');
     }
